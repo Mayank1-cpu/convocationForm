@@ -1,0 +1,49 @@
+html{
+  font-size: 16px;
+}
+body{
+  background-color: #eeeeee;
+background-image: url("https://www.transparenttextures.com/patterns/cubes.png");
+font-family: 'Roboto', sans-serif;
+}
+.title{
+text-align: center;
+margin:5% 0 4% 9%;
+}
+.title h1{
+  font-size:3.3em;
+  margin-left: 5%;
+}
+.honorific{
+  display:inline-block;
+}
+.logo{
+width: 95%;
+margin-top: 10px;
+}
+hr{
+  border-top: 7px;
+  width: 5%;
+  height: 2vh;
+  border-style: none;
+  border-top-style: dotted;
+  border-color: #212121;
+  opacity: 1;
+  margin:3% 51.5%;
+}
+.button{
+  margin-top: 5px;
+  margin-bottom: 4%;
+}
+.agreement{
+  margin:1% 0 0 0;
+}
+.icon{
+  width: 6%;
+margin-bottom: 1.5%;
+}
+@media (max-width:800px){
+.title {
+  font-size: 0.7em;
+}
+}

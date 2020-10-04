@@ -1,0 +1,108 @@
+<%- include("partials/header"); -%>
+<img class="logo" src="http://www.iiitt.ac.in/images/logo-iiit.png"</img>
+<div class="title" >
+<h1>Convocation <img class="icon" src="https://www.flaticon.com/svg/static/icons/svg/3135/3135810.svg"></img></h1>
+<h3>Registration Form</h3>
+<p>Please fill the appropriate infromation</p>
+  <% if (locals.message){ %>
+    <h4 class="alert alert-danger mt-4"><%=message%></h4>
+  <% } %>
+</div>
+<hr></hr>
+<form class="form" action="/" method="post" >
+  <!-- enctype="multipart/form-data" -->
+<div class="form-check form-check-inline honorific">
+  <input class="form-check-input" type="radio" name="honorific" id="honorific" value="Mr">
+  <label class="form-check-label" for="honorific" >Mr.</label>
+</div>
+
+<div class="form-check form-check-inline honorific">
+  <input class="form-check-input" type="radio" name="honorific" id="honorific" value="Ms">
+  <label class="form-check-label" for="honorific" >Ms.</label>
+</div>
+
+<div class="form-check form-check-inline honorific">
+  <input class="form-check-input" type="radio" name="honorific" id="honorific" value="Mrs">
+  <label class="form-check-label" for="honorific" >Mrs.</label>
+</div>
+
+  <div class="form-group">
+    <input type="text" class="form-control" name="name" placeholder="Full Name">
+  </div>
+
+
+  <div class="form-group">
+    <input type="text" class="form-control" name="rollNumber" placeholder="Registration Number(Roll Number)" ">
+  </div>
+
+  <div class="form-group">
+    <input type="text" class="form-control" name="programme" placeholder="Programme" >
+  </div>
+
+  <div class="form-group">
+    <input type="email" class="form-control" name="email" placeholder="Email">
+  </div>
+
+  <div class="form-group">
+    <input type="number" class="form-control" name="mobileNumber" placeholder="Mobile Number"  >
+  </div>
+
+  <div class="form-group">
+    <label>Full Postal Address(With Pincode)</label>
+    <textarea class="form-control" rows="3" name="postalAddress"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="Photograph">Recent Passport Size Coloured Photograph</label>
+    <input type="file" class="form-control-file" id="photograph" name="photograph">
+  </div>
+
+  <h3>I wish to attend the convocation by</h3>
+
+  <div class="form-check">
+  <input class="form-check-input" type="radio" name="mode" id="computer" value="Computer" checked>
+  <label class="form-check-label" for="computer">
+    Computer
+  </label>
+</div>
+
+<div class="form-check">
+  <input class="form-check-input" type="radio" name="mode" id="mobile" value="Mobile">
+  <label class="form-check-label" for="mobile">
+   Mobile
+  </label>
+</div>
+
+
+<div class="form-group">
+  <input type="number" class="form-control" name="paymentRefernceNumber" placeholder="Payment Refernce Number"  >
+</div>
+
+<h4>You are pursuing</h4>
+
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="pursuing" id="studies" value="Higher Studies">
+  <label class="form-check-label" for="studies">Higher Studies</label>
+  <input class="form-control form-control-sm" type="text" name="studyInfo" placeholder="M.S/M.Tech at institute name">
+</div>
+
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="pursuing" id="job" value="Job">
+  <label class="form-check-label" for="job">Job</label>
+  <input class="form-control form-control-sm" type="text" name="jobInfo" placeholder="Ex:- Position/Company">
+</div>
+
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="pursuing" id="other" value="Job">
+  <label class="form-check-label" for="other">other</label>
+</div>
+
+<div class="form-group form-check agreement">
+   <input type="checkbox" class="form-check-input" id="check">
+   <label class="form-check-label" for="check">I agree to all the instructions given here</label>
+ </div>
+
+ <button type="submit" class="btn btn-primary button" id="submitButton">Submit</button>
+  </form>
+
+<%- include("partials/footer"); -%>
