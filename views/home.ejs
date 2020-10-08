@@ -1,12 +1,10 @@
 <%- include("partials/header"); -%>
 <div class="main">x
-<img class="logo" src="http://dev.iiitt.ac.in/static/media/header.eb613549.png"</img>
+<img class="logo" src="http://www.iiitt.ac.in/images/logo-iiit.png"</img>
 <div class="top">
-  <h1 class="header welcome">Welcome!</h1>
-<h1 class="header convocation">Convocation 2020</h1>
 </div>
 <div class="title" >
-<h3>Registration Form</h3>
+<h3>Registration Form For Convocation 2020</h3>
 <p>Please fill the appropriate infromation</p>
   <% if (locals.message){ %>
     <%  if(locals.message.includes("Fill")){ %>
@@ -83,7 +81,7 @@
 
 
 <div class="form-group">
-  <input type="number" class="form-control" name="paymentRefernceNumber" placeholder="Payment Refernce Number"  >
+  <input type="text" class="form-control" name="paymentRefernceNumber" placeholder="Payment Refernce Number"  >
 </div>
 
 <h4>You are pursuing</h4>
@@ -106,7 +104,7 @@
 </div>
 
 <div class="form-group form-check agreement">
-   <input type="checkbox" class="form-check-input" id="check">
+   <input type="checkbox" class="form-check-input" name="check" value="true" id="check">
    <label class="form-check-label" for="check">I agree to all the instructions given here</label>
  </div>
 

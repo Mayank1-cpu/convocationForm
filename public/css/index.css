@@ -30,24 +30,13 @@ left:0;
 z-index: 2;
 }
 .top{
-  height: 26.5vh;
-  background-color:seagreen;
+  height: 23.5vh;
+  background-color:#eeeeee;
   width: 100%;
   position: absolute;
   top:0;
   left:0;
   display: flex;
-}
-.header{
-  margin-top: auto;
-  color: #fff;
-  font-size: 1.8rem;
-}
-.welcome{
-  margin-left: 30%;
-}
-.convocation{
-  margin-left: 15%;
 }
 hr{
   border-top: 7px;
@@ -136,7 +125,7 @@ font-size: 0.8rem;
 }
 hr{
   width: 9%;
-  margin: 42% auto 5%;
+  margin: 50% auto 5%;
 }
 .dan-suc{
   margin-right: 22px;

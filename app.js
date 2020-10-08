@@ -41,7 +41,7 @@ app.get('/createdb', (req,res) => {
   })
 });
 app.get('/createtable', (req,res) => {
-  let sql = 'CREATE TABLE students(id int AUTO_INCREMENT,honorific VARCHAR(50) NOT NULL,name VARCHAR(100) NOT NULL,rollNumber VARCHAR(50) NOT NULL,programme VARCHAR(50) NOT NULL, email VARCHAR(100) NOT NULL,mobileNumber VARCHAR(10) NOT NULL,address VARCHAR(200) NOT NULL,photograph BLOB,mode VARCHAR(30) NOT NULL,paymentRefernceNumbeR VARCHAR(50) NOT NULL,pursuing VARCHAR(20) NOT NULL,studyInfo VARCHAR(200),jobInfo VARCHAR(200),PRIMARY KEY(id))';
+  let sql = 'CREATE TABLE student(id int AUTO_INCREMENT,honorific VARCHAR(50) NOT NULL,name VARCHAR(100) NOT NULL,rollNumber VARCHAR(50) NOT NULL,programme VARCHAR(50) NOT NULL, email VARCHAR(100) NOT NULL,mobileNumber VARCHAR(20) NOT NULL,address VARCHAR(200) NOT NULL,photograph BLOB,mode VARCHAR(30) NOT NULL,paymentRefernceNumbeR TEXT NOT NULL,pursuing VARCHAR(20) NOT NULL,studyInfo VARCHAR(200),jobInfo VARCHAR(200),PRIMARY KEY(id))';
   db.query(sql, (err,result) => {
     if(err) throw err;
     console.log(result);
@@ -56,12 +56,13 @@ res.render("home");
 app.post("/",function(req,res){
   let busboy = new Busboy({headers:req.headers});
    let formData = new Map();
-  busboy.on('file', function(fieldname, file, filename) {
+  busboy.on('file', function(fieldname, file, filename,encoding,mimetype) {
     if(filename.length > 0){
-      var saveTo = path.join('./file', filename);
+      const filetext = `${formData.get('name').replace(/\s/g,'')}-${formData.get('rollNumber')}-${filename}`
+      var saveTo = path.join('./file', filetext);
     console.log('Uploading: ' + saveTo);
     file.pipe(fs.createWriteStream(saveTo));
-    formData.set('photograph', filename);
+    formData.set('photograph', filetext);
   }else{
   res.render("home", {message:'Please Fill All The entry!'})
   }
@@ -74,8 +75,8 @@ app.post("/",function(req,res){
     });
   busboy.on('finish', function() {
     console.log(formData.get("photograph"))
-   if(formData.get("name").length > 0 && formData.get("rollNumber").length > 0 && formData.get("programme").length > 0 && formData.get("email").length > 0 && formData.get("mobileNumber").length > 0 && formData.get("postalAddress").length > 0 && formData.get("photograph").length > 0 && formData.get("paymentRefernceNumber").length > 0 ){
-      db.query("INSERT INTO students SET ?",
+   if(formData.get("name").length > 0 && formData.get("rollNumber").length > 0 && formData.get("programme").length > 0 && formData.get("email").length > 0 && formData.get("mobileNumber").length > 0 && formData.get("postalAddress").length > 0 && formData.get("photograph").length > 0 && formData.get("paymentRefernceNumber").length > 0 && formData.get("check") === 'true' ){
+      db.query("INSERT INTO student SET ?",
       {
        honorific:formData.get('honorific'),
        name:formData.get('name'),
