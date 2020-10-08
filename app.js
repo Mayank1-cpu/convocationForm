@@ -58,6 +58,7 @@ app.post("/",function(req,res){
    let formData = new Map();
   busboy.on('file', function(fieldname, file, filename) {
     if(filename.length > 0){
+      filename = formData.get("rollNumber")+'_'+filename
       var saveTo = path.join('./file', filename);
     console.log('Uploading: ' + saveTo);
     file.pipe(fs.createWriteStream(saveTo));
