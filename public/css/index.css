@@ -5,10 +5,16 @@ body{
   background-color: #eeeeee;
 background-image: url("https://www.transparenttextures.com/patterns/cubes.png");
 font-family: 'Roboto', sans-serif;
+overflow-x: hidden;
+padding: 0 !important;
 }
 .title{
 text-align: center;
 margin:5% 0 4% 9%;
+position: relative;
+top:100px;
+right:3%;
+z-index: 5
 }
 .title h1{
   font-size:3.3em;
@@ -18,8 +24,30 @@ margin:5% 0 4% 9%;
   display:inline-block;
 }
 .logo{
-width: 95%;
-margin-top: 10px;
+width: 100%;
+position: absolute;
+left:0;
+z-index: 2;
+}
+.top{
+  height: 26.5vh;
+  background-color:seagreen;
+  width: 100%;
+  position: absolute;
+  top:0;
+  left:0;
+  display: flex;
+}
+.header{
+  margin-top: auto;
+  color: #fff;
+  font-size: 1.8rem;
+}
+.welcome{
+  margin-left: 30%;
+}
+.convocation{
+  margin-left: 15%;
 }
 hr{
   border-top: 7px;
@@ -29,7 +57,7 @@ hr{
   border-top-style: dotted;
   border-color: #212121;
   opacity: 1;
-  margin:3% 51.5%;
+  margin:13% auto 4%;
 }
 .button{
   margin-top: 5px;
@@ -42,8 +70,76 @@ hr{
   width: 6%;
 margin-bottom: 1.5%;
 }
-@media (max-width:800px){
-.title {
-  font-size: 0.7em;
+.footer{
+  background-color: seagreen;
+ height: 6vh;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ border-top: 3px solid #050e09;
+ padding: 5px;
 }
+.footer .credits{
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+  color:#fff;
+  font-weight: bold;
+  margin-top: 5px;
+    cursor: pointer;
+}
+.credits .heart{
+  width: 2.2%;
+  transform: scale(1.2);
+  color:red;
+  transition: 1s;
+  margin: 0 15px 0 5px;
+}
+.credits:hover .heart{
+margin: 0 20px 0 10px;
+transform: scale(1.5);
+}
+@media (max-width:800px){
+.welcome{
+  font-size: 0.8rem;
+  margin-left: 27%;
+}
+.logo{
+  width: 100%;
+}
+.top{
+  width: 100%;
+}
+body{
+  width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+.convocation{
+  font-size: 0.8rem;
+  margin-left: 14%;
+}
+.top{
+  height: 9vh;
+}
+.title{
+  position: absolute;
+  top:35px;
+  left:0px;
+}
+.title h3{
+  font-size: 1.3rem;
+}
+.title p{
+font-size: 0.8rem;
+}
+hr{
+  width: 9%;
+  margin: 42% auto 5%;
+}
+.dan-suc{
+  margin-right: 22px;
+}
+
 }

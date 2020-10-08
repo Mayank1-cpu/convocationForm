@@ -1,31 +1,20 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mysql = require("mysql");
 const dotenv = require("dotenv");
-const multer = require("multer");
 const path = require("path");
+var fs = require('fs');
+os = require('os');
+var Busboy = require('busboy');
+var http = require('http'),
+    inspect = require('util').inspect;
+
 
 const app = express();
 app.set('view engine', 'ejs');
 
-app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
-
 dotenv.config({path:'./.env'});
-
-// Set storage engine
-const storage = multer.diskStorage({
-  destination:"./public/images/upload_images/",
-  filename: function(req, file, cb){
-    cb(null, file.fieldname+"-"+Date.now()+path.extname(file.originalname))
-  }
-});
-//Init upload
-const upload = multer({
-  storage:storage,
-  limits:{fileSize:100000}
-}).single("photograph");
 
 
 //Create connection
@@ -43,62 +32,73 @@ db.connect((err) => {
     console.log("MySQL connected...")
   }
 });
-
-
-
+app.get('/createdb', (req,res) => {
+  let sql = 'CREATE DATABASE convocation2020';
+  db.query(sql, (err,result) => {
+    if(err) throw err;
+    console.log(result);
+    res.send('DATABASE CREATED');
+  })
+});
+app.get('/createtable', (req,res) => {
+  let sql = 'CREATE TABLE students(id int AUTO_INCREMENT,honorific VARCHAR(50) NOT NULL,name VARCHAR(100) NOT NULL,rollNumber VARCHAR(50) NOT NULL,programme VARCHAR(50) NOT NULL, email VARCHAR(100) NOT NULL,mobileNumber VARCHAR(10) NOT NULL,address VARCHAR(200) NOT NULL,photograph BLOB,mode VARCHAR(30) NOT NULL,paymentRefernceNumbeR VARCHAR(50) NOT NULL,pursuing VARCHAR(20) NOT NULL,studyInfo VARCHAR(200),jobInfo VARCHAR(200),PRIMARY KEY(id))';
+  db.query(sql, (err,result) => {
+    if(err) throw err;
+    console.log(result);
+    res.send("table created");
+  })
+})
 
 app.get("/", (req,res) => {
 res.render("home");
 });
-app.post("/", (req,res) => {
-console.log(req.body);
-const {honorific,name,rollNumber,programme,email,mobileNumber,postalAddress,photograph,mode,
-       paymentRefernceNumber,pursuing,studyInfo,jobInfo} = req.body;
-db.query("SELECT email From students WHERE email = ?", [email], (err, results) => {
-  if(err){
-    console.log(err);
+
+app.post("/",function(req,res){
+  let busboy = new Busboy({headers:req.headers});
+   let formData = new Map();
+  busboy.on('file', function(fieldname, file, filename) {
+    if(filename.length > 0){
+      var saveTo = path.join('./file', filename);
+    console.log('Uploading: ' + saveTo);
+    file.pipe(fs.createWriteStream(saveTo));
+    formData.set('photograph', filename);
+  }else{
+  res.render("home", {message:'Please Fill All The entry!'})
   }
-  if(results.length > 0){
-    return res.render("home", { message: "Email is already exist!!"})
-  }
-})
+    });
+    busboy.on('finish', function() {
+      console.log("finish")
+    });
+  busboy.on('field', function(fieldname, val) {
+      formData.set(fieldname, val);
+    });
+  busboy.on('finish', function() {
+    console.log(formData.get("photograph"))
+   if(formData.get("name").length > 0 && formData.get("rollNumber").length > 0 && formData.get("programme").length > 0 && formData.get("email").length > 0 && formData.get("mobileNumber").length > 0 && formData.get("postalAddress").length > 0 && formData.get("photograph").length > 0 && formData.get("paymentRefernceNumber").length > 0 ){
+      db.query("INSERT INTO students SET ?",
+      {
+       honorific:formData.get('honorific'),
+       name:formData.get('name'),
+       rollNumber:formData.get('rollNumber'),
+       programme:formData.get('programme'),
+       email:formData.get('email'),
+       mobileNumber:formData.get('mobileNumber'),
+       address:formData.get('postalAddress'),
+       photograph:formData.get('photograph'),
+       mode:formData.get('mode'),
+       paymentRefernceNumbeR:formData.get('paymentRefernceNumber'),
+       pursuing:formData.get('pursuing'),
+       studyInfo:formData.get('studyInfo'),
+       jobInfo:formData.get('jobInfo')
+     })
+     res.render('home',{message:"User registered"})
+    }else{
+      res.render('home',{message:"Please Fill All The entry!"});
+    }
+      console.log('Done parsing form!');
 
-
- db.query("INSERT INTO students SET ?",
-        {
-         honorific:honorific,
-         name:name,
-         rollNumber:rollNumber,
-         programme:programme,
- 	       email:email,
-         mobileNumber:mobileNumber,
-         address:postalAddress,
-         photograph:photograph,
-         mode:mode,
-         paymentRefernceNumbeR:paymentRefernceNumber,
-         pursuing:pursuing,
-         studyInfo:studyInfo,
-         jobInfo:jobInfo },
-       (err,results) => {
-         if(err){
-           res.render("home",{message:err});
-           console.log(err);
-         }else{
-           res.render("home",{
-             message: "User registered"
-           });
-         }
-       });
-
-
-       upload(req, res, (err) => {
-         if(err){
-         res.render("home", {message:"error file is too large!"})
-       }else{
-         console.log(req.file);
-       }
-       })
-
+    });
+    req.pipe(busboy);
 });
 
 app.listen(3000,() => {
